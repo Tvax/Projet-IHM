@@ -1,47 +1,37 @@
 ﻿using Library;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Projet.Factorys;
 using Projet.Events;
 
 namespace Projet.ViewModels {
     public class RemoveEmoteViewModel : NotifyPropertyChangedBase {
         public DelegateCommand Yes { get; set; }
         public DelegateCommand No { get; set; }
-        public bool ans { get; set; }
+        public bool Ans { get; set; }
 
         public RemoveEmoteViewModel(bool ans) {
-            this.ans = ans;
+            this.Ans = ans;
             Yes = new DelegateCommand(OnYesAction, CanExecuteYes);
             No = new DelegateCommand(OnNoAction, CanExecuteNo);
         }
 
-
+        #region OnActions
         private void OnNoAction(object obj) {
-            ans = false;
+            Ans = false;
             ButtonPressedEvent.GetEvent().OnButtonPressedHandler(EventArgs.Empty);
         }
-
         private void OnYesAction(object obj) {
-            ans = true;
+            Ans = true;
             ButtonPressedEvent.GetEvent().OnButtonPressedHandler(EventArgs.Empty);
-        }
+        } 
+        #endregion
 
+        #region CanExecuteCommands
         private bool CanExecuteNo(object obj) {
             return true;
         }
         private bool CanExecuteYes(object obj) {
             return true;
-        }
-
-
+        } 
+        #endregion
     }
-
-
-
-
-
 }

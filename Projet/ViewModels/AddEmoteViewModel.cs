@@ -13,12 +13,13 @@ namespace Projet.ViewModels {
         public DelegateCommand OKCommand { get; set; }
         public DelegateCommand CancelCommand { get; set; }
         public DelegateCommand LoadCommand { get; set; }
-        private Emote emot;
-        public bool valid = false;
+        public bool Valid = false;
+
+        private Emote _emot;
 
         public Emote Emote {
-            get { return emot; }
-            set { emot = value; }
+            get { return _emot; }
+            set { _emot = value; }
         }
 
         public AddEmoteViewModel(Emote emote) {
@@ -29,24 +30,18 @@ namespace Projet.ViewModels {
             LoadCommand = new DelegateCommand(OnLoadCommand, CanLoadCommand);
         }
 
+        #region OnActions
         private void OnCancelCommand(object o) {
-            valid = false;
-            Emote = null;
+            Valid = false;
             ButtonPressedEvent.GetEvent().OnButtonPressedHandler(EventArgs.Empty);
         }
-        private bool CanCancelCommand(object o) {
-            return true;
-        }
-        
+
         private void OnOKAction(object o) {
-            valid = true;
-            emot = Emote;
+            Valid = true;
+            _emot = Emote;
             ButtonPressedEvent.GetEvent().OnButtonPressedHandler(EventArgs.Empty);
         }
-        private bool CanExecuteOK(object o) { 
-            return true;
-        }
-                
+
         private void OnLoadCommand(object o) {
             OpenFileDialog op = new OpenFileDialog();
             op.Title = "Select a picture";
@@ -56,10 +51,20 @@ namespace Projet.ViewModels {
             if (op.ShowDialog() == true) {
                 Emote.Image = new BitmapImage(new Uri(op.FileName));
             }
+        } 
+        #endregion
+
+        #region CanExecuteCommands
+        private bool CanCancelCommand(object o) {
+            return true;
+        }
+        private bool CanExecuteOK(object o) {
+            return true;
         }
         private bool CanLoadCommand(object o) {
             return true;
-        }
+        } 
+        #endregion
     }
 }
 

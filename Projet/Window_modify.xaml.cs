@@ -14,13 +14,12 @@ namespace Projet {
     /// </summary>
     public partial class Window_modify : Window {
 
-        public AddEmoteViewModel _viewModel;
-
+        public AddEmoteViewModel ViewModel;
 
         public Window_modify(Emote emot) {
             InitializeComponent();
-            _viewModel = new AddEmoteViewModel(emot);
-            DataContext = _viewModel;
+            ViewModel = new AddEmoteViewModel(emot);
+            DataContext = ViewModel;
         }
     }
 }

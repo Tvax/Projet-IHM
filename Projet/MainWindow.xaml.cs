@@ -16,7 +16,6 @@ namespace Projet {
 
         public MainWindow() {
             InitializeComponent();
-
             _viewModel = new ListEmoteViewModel();
             DataContext = _viewModel;
         }
