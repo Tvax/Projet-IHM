@@ -1,19 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
+using Library;
+using System;
+using System.IO;
+using System.Windows.Media.Imaging;
 
-namespace Projet {
-    public class Emote {
+namespace Projet.Modeles {
+    public class Emote : NotifyPropertyChangedBase {
 
-        public string Nom;
-        public string Description;
-        public Image image = new Image();
-        
+        private string nom { get; set; }
+        private string description { get; set; }
+        private BitmapImage image { get; set; }
+
+        public string Nom {
+            get { return nom; }
+            set { nom = value; }
+        }
+        public string Description {
+            get { return description; }
+            set { description = value; }
+        }
+        public BitmapImage Image {
+            set { image = value; }
+            get { return image; }
+        }
+
         public override string ToString() {
-            return string.Format("{0}", Nom);
+            return string.Format(Nom);
         }
     }
 }
