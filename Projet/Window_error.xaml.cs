@@ -1,5 +1,4 @@
-﻿using Projet.Modeles;
-using Projet.ViewModels;
+﻿using Projet.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,15 +15,15 @@ using System.Windows.Shapes;
 
 namespace Projet {
     /// <summary>
-    /// Interaction logic for Window_login.xaml
+    /// Interaction logic for Window_error.xaml
     /// </summary>
-    public partial class Window_login : Window {
-        public LoginViewModel ViewModel;
+    public partial class Window_error : Window {
+        public ErrorViewModel ViewModel { get; set; }
 
-        public Window_login(User user, Dictionary<string, User> settings) {
-            InitializeComponent();
-            ViewModel = new LoginViewModel(user, settings);
+        public Window_error(string errorString) {
+            ViewModel = new ErrorViewModel(errorString);
             DataContext = ViewModel;
+            InitializeComponent();
         }
     }
 }

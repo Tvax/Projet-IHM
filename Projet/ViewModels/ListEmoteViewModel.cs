@@ -6,6 +6,8 @@ using BusinessLayer;
 using Projet.Events;
 using System;
 using System.Windows.Media.Imaging;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 //passer list a observable collection
 
@@ -15,6 +17,7 @@ namespace Projet.ViewModels {
         public DelegateCommand EditCommand { get; set; }
         public DelegateCommand DelCommand { get; set; }
         public bool Ans = false;
+        public Dictionary<string, User> Settings = new Dictionary<string, User>();
 
         private User _user;
         private Emote _emot;
@@ -24,10 +27,14 @@ namespace Projet.ViewModels {
         private Window_remove _rmWindow { get; set; }
         private Window_login _loginWindow { get; set; }
 
+        public User User {
+            get { return _user; }
+            set { _user = value; NotifyPropertyChanged("Emote"); }
+        }
+
         public Emote Emote {
             get {  return _emot; }
             set { _emot = value;
-                //if (_emot.Image == null) _emot.Image = new BitmapImage(new Uri(Path.GetFullPath("no_image.png")));
                 NotifyPropertyChanged("Emote");
                 NotifyPropertyChanged("ListeEmotes");
                 OnAddCommand.RaiseCanExecuteChanged();
@@ -42,17 +49,19 @@ namespace Projet.ViewModels {
         }
 
         public ListEmoteViewModel() {
-            OnStartLogin();
+            Login();
             ListeEmotes = EmoteFactory.AllEmoteEntitieToEmote(EmoteDAO.GetAllEmote());
             OnAddCommand = new DelegateCommand(OnAddAction, CanExecuteAdd);
             EditCommand = new DelegateCommand(OnEditCommand, CanEditCommand);
             DelCommand = new DelegateCommand(OnDelCommand, CanDelCommand);
         }
-
-        public void OnStartLogin() {
-            ButtonPressedEvent.GetEvent().Handler += CloseLoginView;
-            _loginWindow = new Window_login(_user = new User());
+       
+        public void Login() {
+            //ButtonPressedEvent.GetEvent().Handler += CloseLoginView;
+            _loginWindow = new Window_login(_user = new User(), Settings);
             _loginWindow.ShowDialog();
+            if (User.Username == null)  App.Current.Shutdown();
+            _loginWindow.Close();
         }
 
         #region OnActions
@@ -124,10 +133,12 @@ namespace Projet.ViewModels {
         #endregion
 
         #region CloseEvents
+        /*
         private void CloseLoginView(object sender, EventArgs e) {
             _loginWindow.Close();
             ButtonPressedEvent.GetEvent().Handler -= CloseLoginView;
         }
+        */
         private void CloseAddView(object sender, EventArgs e) {
             _addWindow.Close();
             ButtonPressedEvent.GetEvent().Handler -= CloseAddView;

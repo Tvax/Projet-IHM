@@ -100,11 +100,15 @@
     <Compile Include="Modeles\Emote.cs" />
     <Compile Include="Modeles\User.cs" />
     <Compile Include="ViewModels\AddEmoteViewModel.cs" />
+    <Compile Include="ViewModels\ErrorViewModel.cs" />
     <Compile Include="ViewModels\ListEmoteViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\RemoveEmoteViewModel.cs" />
     <Compile Include="Window_add.xaml.cs">
       <DependentUpon>Window_add.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window_error.xaml.cs">
+      <DependentUpon>Window_error.xaml</DependentUpon>
     </Compile>
     <Compile Include="Window_login.xaml.cs">
       <DependentUpon>Window_login.xaml</DependentUpon>
@@ -128,6 +132,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Window_add.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window_error.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

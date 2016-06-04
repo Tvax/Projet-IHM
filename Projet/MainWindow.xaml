@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         mc:Ignorable="d"
         xmlns:local="clr-namespace:Projet"
-        Title="Emotes" Height="350" Width="525" Icon="favicon.ico" FontFamily="Tahoma" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" >
+        Title="Emotes" Height="350" Width="525" Icon="favicon.ico" Background="{Binding User.Theme}" FontFamily="Tahoma" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" >
 
     <Grid>
 
