@@ -1,27 +1,24 @@
-﻿using System.Windows.Controls;
-using Library;
-using System;
-using System.IO;
+﻿using Library;
 using System.Windows.Media.Imaging;
 
 namespace Projet.Modeles {
     public class Emote : NotifyPropertyChangedBase {
 
-        private string nom { get; set; }
-        private string description { get; set; }
-        private BitmapImage image { get; set; }
+        private string _nom { get; set; }
+        private string _description { get; set; }
+        private BitmapImage _image { get; set; }
 
         public string Nom {
-            get { return nom; }
-            set { nom = value; }
+            get { return _nom; }
+            set { _nom = value; }
         }
         public string Description {
-            get { return description; }
-            set { description = value; }
+            get { return _description; }
+            set { _description = value; }
         }
         public BitmapImage Image {
-            set { image = value; }
-            get { return image; }
+            set { _image = value; }
+            get { return _image; }
         }
 
         public override string ToString() {

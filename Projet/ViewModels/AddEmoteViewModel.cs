@@ -2,10 +2,7 @@
 using Microsoft.Win32;
 using Projet.Modeles;
 using System;
-using System.Collections.ObjectModel;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using Projet;
 using Projet.Events;
 
 namespace Projet.ViewModels {

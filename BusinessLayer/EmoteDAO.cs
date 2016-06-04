@@ -8,7 +8,7 @@ namespace BusinessLayer {
             {
                 new EmoteEntities {Nom = "Default_Name", Description = "Default_Description", Image = "no_image.png"},
             };
-            
+
         }
     }
 }

@@ -16,7 +16,6 @@
             <RowDefinition Height="0.1*"/>
         </Grid.RowDefinitions>
 
-
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.3*"/>
             <ColumnDefinition Width="0.7*"/>
@@ -24,7 +23,7 @@
 
 
         <Label Content="Emotes" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,2,0,0"/>
-
+        
         <ListBox ItemsSource="{Binding ListeEmotes, UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding Emote, UpdateSourceTrigger=PropertyChanged}" x:Name="List"  Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Margin="2,2,10,2" SelectedIndex="0"/>
 
         <Grid Grid.Column="1" Grid.Row="1">

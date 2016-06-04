@@ -8,12 +8,9 @@ using System.IO;
 using System;
 using System.Windows.Media.Imaging;
 
-namespace Projet.Factorys
-{
-    public static class EmoteFactory
-    {
-        public static Emote EmoteEntitiesToEmoteModele(EmoteEntities emote)
-        {
+namespace Projet.Factorys {
+    public static class EmoteFactory {
+        public static Emote EmoteEntitiesToEmoteModele(EmoteEntities emote) {
             return new Emote {
                 Nom = emote.Nom,
                 Description = emote.Description,
@@ -21,8 +18,7 @@ namespace Projet.Factorys
             };
         }
 
-        public static ObservableCollection<Emote> AllEmoteEntitieToEmote(List<EmoteEntities> list)
-        {
+        public static ObservableCollection<Emote> AllEmoteEntitieToEmote(List<EmoteEntities> list) {
             return list.Select(EmoteEntitiesToEmoteModele).ToObservableCollection();
         }
 

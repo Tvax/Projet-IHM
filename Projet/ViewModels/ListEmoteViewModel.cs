@@ -1,12 +1,10 @@
 ﻿using Projet.Modeles;
 using Library;
 using System.Collections.ObjectModel;
-using System.Collections.Generic;
 using Projet.Factorys;
 using BusinessLayer;
 using Projet.Events;
 using System;
-using System.IO;
 using System.Windows.Media.Imaging;
 
 //passer list a observable collection
@@ -18,16 +16,17 @@ namespace Projet.ViewModels {
         public DelegateCommand DelCommand { get; set; }
         public bool Ans = false;
 
+        private User _user;
         private Emote _emot;
         private ObservableCollection<Emote> _listeEmote;
         private Window_add _addWindow { get; set; }
         private Window_modify _modWindow { get; set; }
         private Window_remove _rmWindow { get; set; }
+        private Window_login _loginWindow { get; set; }
 
         public Emote Emote {
             get {  return _emot; }
-            set {
-                _emot = value;
+            set { _emot = value;
                 //if (_emot.Image == null) _emot.Image = new BitmapImage(new Uri(Path.GetFullPath("no_image.png")));
                 NotifyPropertyChanged("Emote");
                 NotifyPropertyChanged("ListeEmotes");
@@ -43,10 +42,17 @@ namespace Projet.ViewModels {
         }
 
         public ListEmoteViewModel() {
+            OnStartLogin();
             ListeEmotes = EmoteFactory.AllEmoteEntitieToEmote(EmoteDAO.GetAllEmote());
             OnAddCommand = new DelegateCommand(OnAddAction, CanExecuteAdd);
             EditCommand = new DelegateCommand(OnEditCommand, CanEditCommand);
             DelCommand = new DelegateCommand(OnDelCommand, CanDelCommand);
+        }
+
+        public void OnStartLogin() {
+            ButtonPressedEvent.GetEvent().Handler += CloseLoginView;
+            _loginWindow = new Window_login(_user = new User());
+            _loginWindow.ShowDialog();
         }
 
         #region OnActions
@@ -118,6 +124,10 @@ namespace Projet.ViewModels {
         #endregion
 
         #region CloseEvents
+        private void CloseLoginView(object sender, EventArgs e) {
+            _loginWindow.Close();
+            ButtonPressedEvent.GetEvent().Handler -= CloseLoginView;
+        }
         private void CloseAddView(object sender, EventArgs e) {
             _addWindow.Close();
             ButtonPressedEvent.GetEvent().Handler -= CloseAddView;
