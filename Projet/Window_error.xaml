@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Projet"
         mc:Ignorable="d"
-        Title="Window_error" Height="200" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+        Title="Window_error" Height="200" Width="300" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
 
         <Label Content="{Binding Error}" Margin="5,5,5,50" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <Button Content="OK" Command="{Binding OKCommandError}" Margin="50,100,50,5"/>
+        <Button Content="OK"  Margin="50,100,50,5" Click="Button_Click"/>
         <Image Source="{Binding Image}" Margin="5,5,200,50" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
     </Grid>

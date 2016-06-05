@@ -7,7 +7,10 @@ using Projet.Events;
 using System;
 using System.Windows.Media.Imaging;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Xml.Linq;
+using System.IO;
+using System.Linq;
+using System.Xml;
 
 //passer list a observable collection
 
@@ -19,6 +22,7 @@ namespace Projet.ViewModels {
         public bool Ans = false;
         public Dictionary<string, User> Settings = new Dictionary<string, User>();
 
+        private string _xmlListFile = "lists.xml";
         private User _user;
         private Emote _emot;
         private ObservableCollection<Emote> _listeEmote;
@@ -50,18 +54,59 @@ namespace Projet.ViewModels {
 
         public ListEmoteViewModel() {
             Login();
+            ListLoading();
             ListeEmotes = EmoteFactory.AllEmoteEntitieToEmote(EmoteDAO.GetAllEmote());
             OnAddCommand = new DelegateCommand(OnAddAction, CanExecuteAdd);
             EditCommand = new DelegateCommand(OnEditCommand, CanEditCommand);
             DelCommand = new DelegateCommand(OnDelCommand, CanDelCommand);
         }
-       
-        public void Login() {
-            //ButtonPressedEvent.GetEvent().Handler += CloseLoginView;
+
+        private void ListLoading() {
+            var xmlString = XDocument.Load(Path.GetFullPath(_xmlListFile));
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xmlString.ToString());
+            XmlElement root = doc.DocumentElement;
+            string lel = doc.DocumentElement.GetAttribute("username");
+
+            var Usernames = XDocument.Parse(xmlString.ToString()).Descendants("database").Descendants("user").
+                           Select(e => (string)e.Attribute("username") == User.List).ToList();
+
+
+            var node = (from file in xmlString.
+                        Descendants("user")
+                        where (string)file.Attribute("list") == User.List
+                        select file).Single();
+
+
+            var doc1 = XDocument.Load(_xmlListFile);
+            /*
+            var node = doc1.XPathSelectElements("Stock/Tyre/Manufacturer")
+              .FirstOrDefault(x => x.Value == manufacturer);
+
+
+            IEnumerable<XElement> address =
+                from el in root1.Elements("database")
+                where (string)el.Attribute("Type") == "Billing"
+                select el;
+            foreach (XElement el in address)
+                Console.WriteLine(el);
+
+
+            string s = root.Attributes["database"].Value;
+            var lists = xmlString.Descendants("user").ToDictionary(
+               datum => datum.Attribute("username").Value,
+               datum => datum.Attribute("password").Value);
+            User.List
+
+        ;
+        */
+        }
+
+        private void Login() {
+            ButtonPressedEvent.GetEvent().Handler += CloseLoginView;
             _loginWindow = new Window_login(_user = new User(), Settings);
             _loginWindow.ShowDialog();
             if (User.Username == null)  App.Current.Shutdown();
-            _loginWindow.Close();
         }
 
         #region OnActions
@@ -133,12 +178,11 @@ namespace Projet.ViewModels {
         #endregion
 
         #region CloseEvents
-        /*
+
         private void CloseLoginView(object sender, EventArgs e) {
             _loginWindow.Close();
             ButtonPressedEvent.GetEvent().Handler -= CloseLoginView;
         }
-        */
         private void CloseAddView(object sender, EventArgs e) {
             _addWindow.Close();
             ButtonPressedEvent.GetEvent().Handler -= CloseAddView;
