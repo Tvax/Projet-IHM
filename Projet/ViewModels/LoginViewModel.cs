@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using Projet.ViewModels;
+using System.Windows.Media;
 
 namespace Projet.ViewModels {
     public class LoginViewModel : NotifyPropertyChangedBase {
@@ -40,7 +41,7 @@ namespace Projet.ViewModels {
                 Select(e => (string)e.Attribute("username")).ToList();
         }
 
-        private void OnLoginAction(object obj) { 
+        private void OnLoginAction(object obj) {
             if (User.Username == null) {
                 ButtonPressedEvent.GetEvent().Handler += CloseErrorView;
                 _errWindow = new Window_error("Username is null.");
@@ -58,9 +59,16 @@ namespace Projet.ViewModels {
             }
             else {
                 var doc = XDocument.Load(Path.GetFullPath(_xmlUsersFile));
-                var Settings = doc.Descendants("user").ToDictionary(
-                datum => datum.Attribute("username").Value,
-                datum => datum.Attribute("password").Value);
+                var result = doc.Root.Elements("user").
+                Where(o => (string)o.Attribute("username") == User.Username);
+
+                var converter = new System.Windows.Media.BrushConverter();
+
+                foreach (var r in result) {
+                    var brush = (Brush)converter.ConvertFromString(r.Attribute("theme").Value.ToString());
+                    User.Theme = brush;
+                    User.List = r.Attribute("list").Value.ToString();
+                }
                 ButtonPressedEvent.GetEvent().OnButtonPressedHandler(EventArgs.Empty);
             }
         }

@@ -6,10 +6,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         mc:Ignorable="d"
         xmlns:local="clr-namespace:Projet"
-        Title="Emotes" Height="350" Width="525" Icon="favicon.ico" Background="{Binding User.Theme}" FontFamily="Tahoma" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" >
+        Title="Emotes" Height="375" Width="525" Icon="favicon.ico" Background="{Binding User.Theme}" FontFamily="Tahoma" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" >
 
     <Grid>
-
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="0.1*"/>
             <RowDefinition Height="0.8*"/>
@@ -86,5 +86,12 @@
             </Button>
 
         </Grid>
+
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Save" Command="{Binding}"/>
+            </MenuItem>
+        </Menu>
+        
     </Grid>
 </Window>

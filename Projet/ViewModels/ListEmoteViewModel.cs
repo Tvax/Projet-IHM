@@ -22,6 +22,7 @@ namespace Projet.ViewModels {
         public bool Ans = false;
         public Dictionary<string, User> Settings = new Dictionary<string, User>();
 
+        private Emote _tmp;
         private string _xmlListFile = "lists.xml";
         private User _user;
         private Emote _emot;
@@ -37,8 +38,9 @@ namespace Projet.ViewModels {
         }
 
         public Emote Emote {
-            get {  return _emot; }
-            set { _emot = value;
+            get { return _emot; }
+            set {
+                _emot = value;
                 NotifyPropertyChanged("Emote");
                 NotifyPropertyChanged("ListeEmotes");
                 OnAddCommand.RaiseCanExecuteChanged();
@@ -52,61 +54,55 @@ namespace Projet.ViewModels {
             set { _listeEmote = value; }
         }
 
-        public ListEmoteViewModel() {
+        public ListEmoteViewModel() {  
             Login();
             ListLoading();
-            ListeEmotes = EmoteFactory.AllEmoteEntitieToEmote(EmoteDAO.GetAllEmote());
+            //ListeEmotes = EmoteFactory.AllEmoteEntitieToEmote(EmoteDAO.GetAllEmote());
             OnAddCommand = new DelegateCommand(OnAddAction, CanExecuteAdd);
             EditCommand = new DelegateCommand(OnEditCommand, CanEditCommand);
             DelCommand = new DelegateCommand(OnDelCommand, CanDelCommand);
         }
 
         private void ListLoading() {
+            ListeEmotes = new ObservableCollection<Emote>();
             var xmlString = XDocument.Load(Path.GetFullPath(_xmlListFile));
-            XmlDocument doc = new XmlDocument();
-            doc.LoadXml(xmlString.ToString());
-            XmlElement root = doc.DocumentElement;
-            string lel = doc.DocumentElement.GetAttribute("username");
+            var result = xmlString.Root.Elements("user").
+                Where(o => (string)o.Attribute("list") == User.List).
+                Elements("list");
 
-            var Usernames = XDocument.Parse(xmlString.ToString()).Descendants("database").Descendants("user").
-                           Select(e => (string)e.Attribute("username") == User.List).ToList();
+            string nom = null;
+            BitmapImage image = new BitmapImage();
+            string description = null;
 
-
-            var node = (from file in xmlString.
-                        Descendants("user")
-                        where (string)file.Attribute("list") == User.List
-                        select file).Single();
-
-
-            var doc1 = XDocument.Load(_xmlListFile);
-            /*
-            var node = doc1.XPathSelectElements("Stock/Tyre/Manufacturer")
-              .FirstOrDefault(x => x.Value == manufacturer);
-
-
-            IEnumerable<XElement> address =
-                from el in root1.Elements("database")
-                where (string)el.Attribute("Type") == "Billing"
-                select el;
-            foreach (XElement el in address)
-                Console.WriteLine(el);
-
-
-            string s = root.Attributes["database"].Value;
-            var lists = xmlString.Descendants("user").ToDictionary(
-               datum => datum.Attribute("username").Value,
-               datum => datum.Attribute("password").Value);
-            User.List
-
-        ;
-        */
+            foreach (var r in result) {
+                _tmp = new Emote();
+                nom = r.Attribute("nom").Value.ToString();
+                description = r.Attribute("description").Value;
+                image = new BitmapImage(new Uri(Path.GetFullPath(r.Attribute("image").Value.ToString())));
+                _tmp.Nom = nom;
+                _tmp.Description = description;
+                _tmp.Image = image;
+                ListeEmotes.Add(_tmp);
+            }
         }
 
         private void Login() {
             ButtonPressedEvent.GetEvent().Handler += CloseLoginView;
             _loginWindow = new Window_login(_user = new User(), Settings);
             _loginWindow.ShowDialog();
-            if (User.Username == null)  App.Current.Shutdown();
+            if (User.Username == null)
+                App.Current.Shutdown();
+        }
+
+        private void SaveEmotes() {
+            //On peut ovewrite sur la liste du user dans le xml
+            //Pose pas de pb je pense
+            //Meme qu'il faut del tout ce qu'il ya dedans, et reecrire, car si mec supprimer une emote
+            //Elle restera dans le fichier xml alors qu'il l'aura delete
+            foreach(var i in ListeEmotes) {
+                //User.List
+                //i.Description 
+            }
         }
 
         #region OnActions
