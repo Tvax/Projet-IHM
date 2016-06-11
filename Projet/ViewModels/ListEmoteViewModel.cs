@@ -101,7 +101,22 @@ namespace Projet.ViewModels {
             var xmlString = XDocument.Load(Path.GetFullPath(_xmlListFile));
             var result = xmlString.Root.Elements("user").
                 Where(i => (string)i.Attribute("list") == User.List).
-                Elements("list");//Supprimer tout les elements qu'il y a dedans.
+                Elements("list");
+
+            var result1 = xmlString.Root.Elements("user").
+                Where(i => (string)i.Attribute("list") == User.List);
+
+            foreach (var r1 in result1) {
+                r1.Remove();//Delete liste une par une
+            }
+            re.Save(Path.GetFullPath(_xmlUsersFile));
+            //Reecrire dedans
+            foreach (var i in ListeEmotes) {
+                //User.List
+                //i.Description 
+            }
+
+            //Supprimer tout les elements qu'il y a dedans.
             //Et ensuite écrire chaque element ListeEmotes, dans chaque elements, et dans chaque attributs.
 
             //Ecrire dans le fichier users.xml
@@ -109,10 +124,7 @@ namespace Projet.ViewModels {
             //Pose pas de pb je pense
             //Meme qu'il faut del tout ce qu'il ya dedans, et reecrire, car si mec supprimer une emote
             //Elle restera dans le fichier xml alors qu'il l'aura delete
-            foreach (var i in ListeEmotes) {
-                //User.List
-                //i.Description 
-            }
+
         }
         private void OnDelCommand(object o) {
             ButtonPressedEvent.GetEvent().Handler += CloseRmView;
