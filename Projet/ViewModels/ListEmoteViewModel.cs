@@ -19,6 +19,7 @@ namespace Projet.ViewModels {
         public DelegateCommand OnAddCommand { get; set; }
         public DelegateCommand EditCommand { get; set; }
         public DelegateCommand DelCommand { get; set; }
+        public DelegateCommand SaveCommand { get; set; }
         public bool Ans = false;
         public Dictionary<string, User> Settings = new Dictionary<string, User>();
 
@@ -61,7 +62,8 @@ namespace Projet.ViewModels {
             OnAddCommand = new DelegateCommand(OnAddAction, CanExecuteAdd);
             EditCommand = new DelegateCommand(OnEditCommand, CanEditCommand);
             DelCommand = new DelegateCommand(OnDelCommand, CanDelCommand);
-        }
+            SaveCommand = new DelegateCommand ( OnSaveCommand, CanSaveCommand);
+    }
 
         private void ListLoading() {
             ListeEmotes = new ObservableCollection<Emote>();
@@ -94,18 +96,24 @@ namespace Projet.ViewModels {
                 App.Current.Shutdown();
         }
 
-        private void SaveEmotes() {
+        #region OnActions
+        private void OnSaveCommand(object o) {
+            var xmlString = XDocument.Load(Path.GetFullPath(_xmlListFile));
+            var result = xmlString.Root.Elements("user").
+                Where(i => (string)i.Attribute("list") == User.List).
+                Elements("list");//Supprimer tout les elements qu'il y a dedans.
+            //Et ensuite écrire chaque element ListeEmotes, dans chaque elements, et dans chaque attributs.
+
+            //Ecrire dans le fichier users.xml
             //On peut ovewrite sur la liste du user dans le xml
             //Pose pas de pb je pense
             //Meme qu'il faut del tout ce qu'il ya dedans, et reecrire, car si mec supprimer une emote
             //Elle restera dans le fichier xml alors qu'il l'aura delete
-            foreach(var i in ListeEmotes) {
+            foreach (var i in ListeEmotes) {
                 //User.List
                 //i.Description 
             }
         }
-
-        #region OnActions
         private void OnDelCommand(object o) {
             ButtonPressedEvent.GetEvent().Handler += CloseRmView;
             _rmWindow = new Window_remove(Ans);
@@ -174,7 +182,6 @@ namespace Projet.ViewModels {
         #endregion
 
         #region CloseEvents
-
         private void CloseLoginView(object sender, EventArgs e) {
             _loginWindow.Close();
             ButtonPressedEvent.GetEvent().Handler -= CloseLoginView;
@@ -194,14 +201,15 @@ namespace Projet.ViewModels {
         #endregion
 
         #region CanExecuteCommands
+        private bool CanSaveCommand(object obj) {
+            return true;
+        }
         private bool CanExecuteAdd(object o) {
             return true;
         }
-
         private bool CanEditCommand(object o) {
             return Emote != null;
         }
-
         private bool CanDelCommand(object o) {
             return Emote != null;
         }
