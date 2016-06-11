@@ -109,13 +109,14 @@ namespace Projet.ViewModels {
             foreach (var r1 in result1) {
                 r1.Remove();//Delete liste une par une
             }
+            /*
             re.Save(Path.GetFullPath(_xmlUsersFile));
             //Reecrire dedans
             foreach (var i in ListeEmotes) {
                 //User.List
                 //i.Description 
             }
-
+            */
             //Supprimer tout les elements qu'il y a dedans.
             //Et ensuite écrire chaque element ListeEmotes, dans chaque elements, et dans chaque attributs.
 
