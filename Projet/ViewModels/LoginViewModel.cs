@@ -93,8 +93,7 @@ namespace Projet.ViewModels {
             }
             else {
                 var xDoc = XElement.Load(Path.GetFullPath(_xmlUsersFile));
-                if (xDoc == null)
-                    return;
+                if (xDoc == null) return;
                 var myNewElement = new XElement("user",
                     new XAttribute("username", User.Username), new XAttribute("password", User.Password), new XAttribute("theme", User.Theme), new XAttribute("list", User.List));
                 xDoc.Add(myNewElement);

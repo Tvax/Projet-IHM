@@ -12,8 +12,6 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 
-//passer list a observable collection
-
 namespace Projet.ViewModels {
     class ListEmoteViewModel : NotifyPropertyChangedBase {
         public DelegateCommand OnAddCommand { get; set; }
@@ -109,16 +107,36 @@ namespace Projet.ViewModels {
         #region OnActions
         private void OnSaveCommand(object o) {
             var xmlString = XDocument.Load(Path.GetFullPath(_xmlListFile));
-            var result = xmlString.Root.Elements("user").
-                Where(i => (string)i.Attribute("list") == User.List).
-                Elements("list");
 
+            xmlString.Root.Elements("user").
+                Where(i => (string)i.Attribute("list") == User.List).Remove();
+            xmlString.Save(Path.GetFullPath(_xmlListFile));
+
+            var xmlString1 = XElement.Load(Path.GetFullPath(_xmlListFile));
+            var myNewElement = new XElement("user",
+                    new XAttribute("list", User.Username));
+            xmlString1.Add(myNewElement);
+            xmlString1.Save(Path.GetFullPath(_xmlListFile));
+
+            foreach (var r in ListeEmotes) {
+                //r.Nom
+            }
+
+            /*
+            string aaa = "/database/user[list='" + User.List + "']";
+            XmlNode node = xml.SelectNodes(aaa);
+            node.RemoveChild(node);
+            xml.Save(Path.GetFullPath(_xmlListFile));
+
+            /*
             var result1 = xmlString.Root.Elements("user").
                 Where(i => (string)i.Attribute("list") == User.List);
 
             foreach (var r1 in result1) {
                 r1.Remove();//Delete liste une par une
             }
+            */
+
             /*
             re.Save(Path.GetFullPath(_xmlUsersFile));
             //Reecrire dedans
