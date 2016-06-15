@@ -108,51 +108,23 @@ namespace Projet.ViewModels {
         private void OnSaveCommand(object o) {
             var xmlString = XDocument.Load(Path.GetFullPath(_xmlListFile));
 
+            //Delete toutes listes
             xmlString.Root.Elements("user").
                 Where(i => (string)i.Attribute("list") == User.List).Remove();
             xmlString.Save(Path.GetFullPath(_xmlListFile));
 
+            //Ajoute liste user
             var xmlString1 = XElement.Load(Path.GetFullPath(_xmlListFile));
             var myNewElement = new XElement("user",
-                    new XAttribute("list", User.Username));
+                    new XAttribute("list", User.Username));  
+
+            //Ajoute toutes listes une par une
+            foreach (var r in ListeEmotes) {
+               myNewElement = new XElement("list", 
+                   new XAttribute("nom", r.Nom), new XAttribute("description", r.Description), new XAttribute("image", r.Image), new XAttribute("origine", r.Origine), new XAttribute("emotemin", r.EmoteMin), new XAttribute("abonnement", r.Abonnement));
+            }
             xmlString1.Add(myNewElement);
             xmlString1.Save(Path.GetFullPath(_xmlListFile));
-
-            foreach (var r in ListeEmotes) {
-                //r.Nom
-            }
-
-            /*
-            string aaa = "/database/user[list='" + User.List + "']";
-            XmlNode node = xml.SelectNodes(aaa);
-            node.RemoveChild(node);
-            xml.Save(Path.GetFullPath(_xmlListFile));
-
-            /*
-            var result1 = xmlString.Root.Elements("user").
-                Where(i => (string)i.Attribute("list") == User.List);
-
-            foreach (var r1 in result1) {
-                r1.Remove();//Delete liste une par une
-            }
-            */
-
-            /*
-            re.Save(Path.GetFullPath(_xmlUsersFile));
-            //Reecrire dedans
-            foreach (var i in ListeEmotes) {
-                //User.List
-                //i.Description 
-            }
-            */
-            //Supprimer tout les elements qu'il y a dedans.
-            //Et ensuite écrire chaque element ListeEmotes, dans chaque elements, et dans chaque attributs.
-
-            //Ecrire dans le fichier users.xml
-            //On peut ovewrite sur la liste du user dans le xml
-            //Pose pas de pb je pense
-            //Meme qu'il faut del tout ce qu'il ya dedans, et reecrire, car si mec supprimer une emote
-            //Elle restera dans le fichier xml alors qu'il l'aura delete
 
         }
         private void OnDelCommand(object o) {
