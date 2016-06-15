@@ -75,6 +75,9 @@ namespace Projet.ViewModels {
             string nom = null;
             BitmapImage image = new BitmapImage();
             string description = null;
+            string origine = null;
+            int emotemin = null;
+            string abonnement = null;
 
             foreach (var r in result) {
                 _tmp = new Emote();
@@ -83,6 +86,9 @@ namespace Projet.ViewModels {
                 image = new BitmapImage(new Uri(Path.GetFullPath(r.Attribute("image").Value.ToString())));
                 _tmp.Nom = nom;
                 _tmp.Description = description;
+                _tmp.Origine = origine;
+                _tmp.EmoteMin = emotemin;
+                _tmp.Abonnement = abonnement;
                 _tmp.Image = image;
                 ListeEmotes.Add(_tmp);
             }
@@ -156,6 +162,9 @@ namespace Projet.ViewModels {
 
             string descBackup = Emote.Description;
             string nomBackup = Emote.Nom;
+            string origBackup = Emote.Origine;
+            string subBackup = Emote.Abonnement;
+            int eminBackup = Emote.EmoteMin;
             BitmapImage imgBackup = Emote.Image;
 
             _modWindow = new Window_modify(Emote);
@@ -166,6 +175,9 @@ namespace Projet.ViewModels {
             if (_modWindow.ViewModel.Valid && !String.IsNullOrWhiteSpace(Emote.Nom)) {
                 string desc1 = Emote.Description;
                 string nom1 = Emote.Nom;
+                string orig1 = Emote.Origine;
+                string sub1 = Emote.Abonnement;
+                int emin1 = Emote.EmoteMin;
                 BitmapImage img1 = Emote.Image;
 
                 ListeEmotes.Remove(Emote);
@@ -173,6 +185,9 @@ namespace Projet.ViewModels {
                 Emote tmp = new Emote();
                 tmp.Description = desc1;
                 tmp.Nom = nom1;
+                tmp.Origine = orig1;
+                tmp.EmoteMin = sub1;
+                tmp.Abonnement = sub1;
                 tmp.Image = img1;
                 ListeEmotes.Add(tmp);
 
@@ -185,6 +200,9 @@ namespace Projet.ViewModels {
                 Emote tmp = new Emote();
                 tmp.Nom = nomBackup;
                 tmp.Description = descBackup;
+                tmp.Origine = origBackup;
+                tmp.Abonnement = subBackup;
+                tmp.EmoteMin = eminBackup;
                 tmp.Image = imgBackup;
                 ListeEmotes.Add(tmp);
 
