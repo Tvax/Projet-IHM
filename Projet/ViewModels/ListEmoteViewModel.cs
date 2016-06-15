@@ -55,15 +55,15 @@ namespace Projet.ViewModels {
             set { _listeEmote = value; }
         }
 
-        public ListEmoteViewModel() {  
+        public ListEmoteViewModel() {
             Login();
             ListLoading();
             //ListeEmotes = EmoteFactory.AllEmoteEntitieToEmote(EmoteDAO.GetAllEmote());
             OnAddCommand = new DelegateCommand(OnAddAction, CanExecuteAdd);
             EditCommand = new DelegateCommand(OnEditCommand, CanEditCommand);
             DelCommand = new DelegateCommand(OnDelCommand, CanDelCommand);
-            SaveCommand = new DelegateCommand ( OnSaveCommand, CanSaveCommand);
-    }
+            SaveCommand = new DelegateCommand(OnSaveCommand, CanSaveCommand);
+        }
 
         private void ListLoading() {
             ListeEmotes = new ObservableCollection<Emote>();
@@ -76,7 +76,7 @@ namespace Projet.ViewModels {
             BitmapImage image = new BitmapImage();
             string description = null;
             string origine = null;
-            int emotemin = null;
+            string emotemin = null;
             string abonnement = null;
 
             foreach (var r in result) {
@@ -84,6 +84,10 @@ namespace Projet.ViewModels {
                 nom = r.Attribute("nom").Value.ToString();
                 description = r.Attribute("description").Value;
                 image = new BitmapImage(new Uri(Path.GetFullPath(r.Attribute("image").Value.ToString())));
+                origine = r.Attribute("origine").Value.ToString();
+                emotemin = r.Attribute("emotemin").Value.ToString();
+                abonnement = r.Attribute("abonnement").Value.ToString();
+
                 _tmp.Nom = nom;
                 _tmp.Description = description;
                 _tmp.Origine = origine;
@@ -164,7 +168,7 @@ namespace Projet.ViewModels {
             string nomBackup = Emote.Nom;
             string origBackup = Emote.Origine;
             string subBackup = Emote.Abonnement;
-            int eminBackup = Emote.EmoteMin;
+            string eminBackup = Emote.EmoteMin;
             BitmapImage imgBackup = Emote.Image;
 
             _modWindow = new Window_modify(Emote);
@@ -177,7 +181,7 @@ namespace Projet.ViewModels {
                 string nom1 = Emote.Nom;
                 string orig1 = Emote.Origine;
                 string sub1 = Emote.Abonnement;
-                int emin1 = Emote.EmoteMin;
+                string emin1 = Emote.EmoteMin;
                 BitmapImage img1 = Emote.Image;
 
                 ListeEmotes.Remove(Emote);

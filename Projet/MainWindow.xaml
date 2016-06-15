@@ -47,7 +47,7 @@
             <Label Content="Origine :" Grid.Column="0" Grid.Row="1"/>
             <Label x:Name="Origine" Content="{Binding Emote.Origine, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Grid.Row="1" Margin="60,0,0,0"/>
             <Label Content="Emotes par minute :" Grid.Column="1" Grid.Row="0"/>
-            <Label x:Name="EmoteMin" Content="{Binding Emote.EmoteMin:, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="0" Margin="120,0,0,0"/>
+            <Label x:Name="EmoteMin" Content="{Binding Emote.EmoteMin, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="0" Margin="120,0,0,0"/>
             <Label Content="Abonnement :" Grid.Column="1" Grid.Row="1"/>
             <Label x:Name="Abonnement" Content="{Binding Emote.Abonnement, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="1" Margin="90,0,0,0"/>
             <Label Content="Description :" Grid.Column="0" Grid.Row="2" />
