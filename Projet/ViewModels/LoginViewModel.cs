@@ -96,7 +96,7 @@ namespace Projet.ViewModels {
                 if (xDoc == null)
                     return;
                 var myNewElement = new XElement("user",
-                    new XAttribute("username", User.Username), new XAttribute("password", User.Password), new XAttribute("theme", User.Theme), new XAttribute("list", ""));
+                    new XAttribute("username", User.Username), new XAttribute("password", User.Password), new XAttribute("theme", User.Theme), new XAttribute("list", User.List));
                 xDoc.Add(myNewElement);
                 xDoc.Save(Path.GetFullPath(_xmlUsersFile));
                 Settings.Add(User.Username, User);//ajoute en key le nom du user, et ajoute les autres infos en value

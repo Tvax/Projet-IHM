@@ -190,7 +190,7 @@ namespace Projet.ViewModels {
                 tmp.Description = desc1;
                 tmp.Nom = nom1;
                 tmp.Origine = orig1;
-                tmp.EmoteMin = sub1;
+                tmp.EmoteMin = emin1;
                 tmp.Abonnement = sub1;
                 tmp.Image = img1;
                 ListeEmotes.Add(tmp);
