@@ -4,19 +4,19 @@
         Title="Remove Emote" Height="150" Width="375" ResizeMode="NoResize" Icon="favicon.ico" ShowInTaskbar="False" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="0.5*"/>
         </Grid.ColumnDefinitions>
-        
+
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="0.4*"/>
+            <RowDefinition Height="0.5*"/>
         </Grid.RowDefinitions>
 
         <Label Grid.Column="0" Grid.Row="0" Content="Delete emote?" HorizontalAlignment="Center"  Grid.ColumnSpan="2" VerticalAlignment="Center"/>
-        
-        <Button x:Name="Yes" Grid.Column="0" Grid.Row="1" Content="Yes" Margin="20,20,20,10" Command="{Binding Yes}"/>
-        <Button x:Name="No" Grid.Column="1" Grid.Row="1" Content="No" Margin="20,20,20,10" Command="{Binding No}" />
+
+        <Button x:Name="Yes" Grid.Column="0" Grid.Row="1" Content="Yes" Margin="20,10,20,10" Command="{Binding Yes}"/>
+        <Button x:Name="No" Grid.Column="1" Grid.Row="1" Content="No" Margin="20,10,20,10" Command="{Binding No}" />
 
     </Grid>
 </Window>

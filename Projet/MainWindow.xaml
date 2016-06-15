@@ -6,10 +6,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         mc:Ignorable="d"
         xmlns:local="clr-namespace:Projet"
-        Title="Emotes" Height="375" Width="525" Icon="favicon.ico" Background="{Binding User.Theme}" FontFamily="Tahoma" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" >
-
+        Title="Emotes Twitch" Height="396" Width="525" Icon="favicon.ico" Background="{Binding User.Theme}" FontFamily="Tahoma" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" >
     <Grid>
-        
+
         <Grid.RowDefinitions>
             <RowDefinition Height="0.1*"/>
             <RowDefinition Height="0.8*"/>
@@ -21,38 +20,40 @@
             <ColumnDefinition Width="0.7*"/>
         </Grid.ColumnDefinitions>
 
+        <Grid Grid.Row="1" Grid.Column="0" >
 
-        <Label Content="Emotes" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,2,0,0"/>
-        
-        <ListBox ItemsSource="{Binding ListeEmotes, UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding Emote, UpdateSourceTrigger=PropertyChanged}" x:Name="List"  Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Margin="2,2,10,2" SelectedIndex="0"/>
-
-        <Grid Grid.Column="1" Grid.Row="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition/>
+                <RowDefinition Height="0.7*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,2,0,0"/>
+            <ListBox ItemsSource="{Binding ListeEmotes, UpdateSourceTrigger=PropertyChanged}" SelectedValue="{Binding Emote, UpdateSourceTrigger=PropertyChanged}" x:Name="List"  Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Margin="2,2,10,2" SelectedIndex="0"/>
+
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="1">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.2*"/>
+                <RowDefinition Height="0.2*"/>
+                <RowDefinition Height="0.6*"/>
             </Grid.RowDefinitions>
 
-            <Grid Grid.Column="0" Grid.Row="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.5*"/>
+            </Grid.ColumnDefinitions>
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-
-                <Label Content="Nom:" Grid.Column="0" Grid.Row="0"/>
-                <Label x:Name="Nom" Content="{Binding Emote.Nom, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="0"/>
-                <Label Content="Description:" Grid.Column="0" Grid.Row="1"/>
-                <Label x:Name="Description" Content="{Binding Emote.Description, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="1"/>
-
-            </Grid>
-            <Image x:Name="img" Grid.Row="2" Source="{Binding Emote.Image, UpdateSourceTrigger=PropertyChanged}" Margin="10,10,10,10"/>
+            <Label Content="Nom :" Grid.Column="0" Grid.Row="0"/>
+            <Label x:Name="Nom" Content="{Binding Emote.Nom, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Grid.Row="0" Margin="45,0,0,0"/>
+            <Label Content="Origine :" Grid.Column="0" Grid.Row="1"/>
+            <Label x:Name="Origine" Content="{Binding Emote.Origine, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Grid.Row="1" Margin="60,0,0,0"/>
+            <Label Content="Emotes par minute :" Grid.Column="1" Grid.Row="0"/>
+            <Label x:Name="EmoteMin" Content="{Binding Emote.EmoteMin:, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="0" Margin="120,0,0,0"/>
+            <Label Content="Abonnement :" Grid.Column="1" Grid.Row="1"/>
+            <Label x:Name="Abonnement" Content="{Binding Emote.Abonnement, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="1" Margin="90,0,0,0"/>
+            <Label Content="Description :" Grid.Column="0" Grid.Row="2" />
+            <Label x:Name="Description" Content="{Binding Emote.Description, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Grid.Row="2" Margin="10,25,0,25"/>
+            <Image x:Name="img" Grid.Column="1" Grid.Row="2" Source="{Binding Emote.Image, UpdateSourceTrigger=PropertyChanged}" Margin="10,10,10,10"/>
         </Grid>
-
 
         <Grid Grid.Row="2" Grid.Column="1" Margin="0,0,2,2">
             <Grid.ColumnDefinitions>
@@ -61,7 +62,7 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <Button x:Name="Add" Grid.Column="0" Command="{Binding OnAddCommand}">
+            <Button x:Name="Add" Grid.Column="0" Command="{Binding OnAddCommand}" Margin="2,2,2,2">
                 <Button.Content>
                     <TextBlock>
                         <Underline>A</Underline>dd
@@ -69,7 +70,7 @@
                 </Button.Content>
             </Button>
 
-            <Button x:Name="Modify" Grid.Column="1" Command="{Binding EditCommand}">
+            <Button x:Name="Modify" Grid.Column="1" Command="{Binding EditCommand}" Margin="2,2,2,2">
                 <Button.Content>
                     <TextBlock>
                         <Underline>M</Underline>odify
@@ -77,14 +78,13 @@
                 </Button.Content>
             </Button>
 
-            <Button x:Name="Remove" Grid.Column="2" Command="{Binding DelCommand}">
+            <Button x:Name="Remove" Grid.Column="2" Command="{Binding DelCommand}" Margin="2,2,2,2">
                 <Button.Content>
                     <TextBlock>
                         <Underline>R</Underline>emove
                     </TextBlock>
                 </Button.Content>
             </Button>
-
         </Grid>
 
         <Menu DockPanel.Dock="Top">
@@ -92,6 +92,6 @@
                 <MenuItem Header="_Save" Command="{Binding SaveCommand}"/>
             </MenuItem>
         </Menu>
-        
+
     </Grid>
 </Window>
