@@ -17,7 +17,7 @@ namespace Projet.ViewModels {
         public List<string> Usernames;
 
         private User _user;
-        private string _xmlUsersFile = "users.xml";
+        private string _xmlUsersFile = "../../users.xml";
         private Window_error _errWindow { get; set; }
 
         public User User {

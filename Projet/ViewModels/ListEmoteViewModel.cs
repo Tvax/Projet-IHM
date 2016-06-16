@@ -22,7 +22,7 @@ namespace Projet.ViewModels {
         public Dictionary<string, User> Settings = new Dictionary<string, User>();
 
         private Emote _tmp;
-        private string _xmlListFile = "lists.xml";
+        private string _xmlListFile = "../../lists.xml";
         private User _user;
         private Emote _emot;
         private ObservableCollection<Emote> _listeEmote;
@@ -81,7 +81,7 @@ namespace Projet.ViewModels {
                 _tmp = new Emote();
                 nom = r.Attribute("nom").Value.ToString();
                 description = r.Attribute("description").Value;
-                image = new BitmapImage(new Uri(Path.GetFullPath(r.Attribute("image").Value.ToString())));
+                image = new BitmapImage(new Uri((r.Attribute("image").Value.ToString())));
                 origine = r.Attribute("origine").Value.ToString();
                 emotemin = r.Attribute("emotemin").Value.ToString();
                 abonnement = r.Attribute("abonnement").Value.ToString();
@@ -106,27 +106,30 @@ namespace Projet.ViewModels {
 
         #region OnActions
         private void OnSaveCommand(object o) {
-            var xmlString = XDocument.Load(Path.GetFullPath(_xmlListFile));
-
             //Delete toutes listes
+            var xmlString = XDocument.Load(Path.GetFullPath(_xmlListFile));
             xmlString.Root.Elements("user").
                 Where(i => (string)i.Attribute("list") == User.List).Remove();
             xmlString.Save(Path.GetFullPath(_xmlListFile));
 
-            //Ajoute liste user
-            var xmlString1 = XElement.Load(Path.GetFullPath(_xmlListFile));
-            var myNewElement = new XElement("user",
-                    new XAttribute("list", User.Username));  
-
             //Ajoute toutes listes une par une
+            dynamic myNewElement1 = null;
+            dynamic myNewElement2 = new XElement("user",
+                   new XAttribute("list", User.Username));
+
             foreach (var r in ListeEmotes) {
-               myNewElement = new XElement("list", 
-                   new XAttribute("nom", r.Nom), new XAttribute("description", r.Description), new XAttribute("image", r.Image), new XAttribute("origine", r.Origine), new XAttribute("emotemin", r.EmoteMin), new XAttribute("abonnement", r.Abonnement));
+                myNewElement1 = new XElement("list",
+                      new XAttribute("nom", r.Nom), new XAttribute("description", r.Description), new XAttribute("image", r.Image), new XAttribute("origine", r.Origine), new XAttribute("emotemin", r.EmoteMin), new XAttribute("abonnement", r.Abonnement));
+
+                    myNewElement2.Add(myNewElement1);
             }
-            xmlString1.Add(myNewElement);
+
+            var xmlString1 = XElement.Load(Path.GetFullPath(_xmlListFile));
+            xmlString1.Add(myNewElement2);
             xmlString1.Save(Path.GetFullPath(_xmlListFile));
 
         }
+
         private void OnDelCommand(object o) {
             ButtonPressedEvent.GetEvent().Handler += CloseRmView;
             _rmWindow = new Window_remove(Ans);

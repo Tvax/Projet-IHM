@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<database>
+	<user list="default">
+		<list nom="Nom" description="Description" image="no_image.png"/>
+	</user>
+	<user list="lel">
+		<list nom="Nom" description="Description" image="no_image.png" origine="Origine" emotemin="elelel" abonnement="0"/>
+	</user>
+</database>
