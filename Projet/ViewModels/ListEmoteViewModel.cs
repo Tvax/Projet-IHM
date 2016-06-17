@@ -114,14 +114,11 @@ namespace Projet.ViewModels {
         }
 
         #region OnActions
-        private void OnColorAction(object obj) {
-            System.Windows.Media.Brush themeBackup = User.Theme;
+        private void OnColorAction(object obj) { 
             ButtonPressedEvent.GetEvent().Handler += CloseColorView;
             _colorWindow = new Window_colorPicker(_user);
             _colorWindow.Name = "Theme";
             _colorWindow.ShowDialog();
-
-            if (!_colorWindow.ViewModel.Ans) User.Theme = themeBackup;
 
         }
         private void OnDelCommand(object o) {
