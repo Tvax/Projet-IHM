@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         mc:Ignorable="d"
         xmlns:local="clr-namespace:Projet"
-        Title="Emotes Twitch" Height="396" Width="525" Icon="favicon.ico" Background="{Binding User.Theme}" FontFamily="Tahoma" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" >
+        Title="Twitch Emotes" Height="396" Width="525" Icon="favicon.ico" Background="{Binding User.Theme}" FontFamily="Tahoma" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" >
     <Grid>
 
         <Grid.RowDefinitions>
@@ -88,7 +88,7 @@
         <Menu DockPanel.Dock="Top" Background="{Binding User.Theme}">
             <MenuItem Header="_File" Background="{Binding User.Theme}">
                 <MenuItem Header="_Save" Command="{Binding SaveCommand}" Background="{Binding User.Theme}"/>
-                <MenuItem Header="_Color" Command="{Binding ColorBoxCommand}" Background="{Binding User.Theme}"/>
+                <MenuItem Header="_Theme" Command="{Binding ColorBoxCommand}" Background="{Binding User.Theme}"/>
                 <Separator />
                 <MenuItem Header="_Save and Quit" Command="{Binding SaveQuitCommand}" Background="{Binding User.Theme}"/>
             </MenuItem>

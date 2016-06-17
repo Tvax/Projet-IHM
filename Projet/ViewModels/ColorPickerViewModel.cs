@@ -2,10 +2,6 @@
 using Projet.Events;
 using Projet.Modeles;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Projet.ViewModels {
     public class ColorPickerViewModel {
@@ -15,10 +11,12 @@ namespace Projet.ViewModels {
 
         private System.Windows.Media.Brush _theme;
         private User _user;
+
         public User User {
             get { return _user; }
             set { _user = value; }
         }
+
         public System.Windows.Media.Brush Theme {
             get { return _theme; }
             set { _theme = value; }
@@ -27,6 +25,7 @@ namespace Projet.ViewModels {
         public ColorPickerViewModel(User user) {
             Theme = user.Theme;
             User = user;
+
             OKCommand = new DelegateCommand(OnOKAction, CanOKCommand);
             CancelCommand = new DelegateCommand(OnCancelAction, CanCancelCommand);
         }

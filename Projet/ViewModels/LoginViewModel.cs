@@ -6,17 +6,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using Projet.ViewModels;
 using System.Windows.Media;
 
 namespace Projet.ViewModels {
     public class LoginViewModel : NotifyPropertyChangedBase {
         public DelegateCommand OnCreateAccountCommand { get; set; }
         public DelegateCommand OnLoginCommand { get; set; }
-        public Dictionary<string, User> Settings { get; set; }
-        public List<string> Usernames;
-        public Dictionary<string, string> UsernamesPassword;
 
+        private Dictionary<string, User> _settings { get; set; }       
+        private Dictionary<string, string> _usernamesPassword;
+        private List<string> _usernames;
         private User _user;
         private string _xmlUsersFile = "../../users.xml";
         private Window_error _errWindow { get; set; }
@@ -27,7 +26,7 @@ namespace Projet.ViewModels {
         }
 
         public LoginViewModel(User user, Dictionary<string, User> settings) {
-            Settings = settings;
+            _settings = settings;
             User = user;
             LoadingUserXML();
             OnCreateAccountCommand = new DelegateCommand(OnCreateAction, CanExecuteCreate);
@@ -35,23 +34,24 @@ namespace Projet.ViewModels {
         }
 
         private void LoadingUserXML() {
-            Usernames = new List<string>();
+            _usernames = new List<string>();
             var xmlString = XDocument.Load(Path.GetFullPath(_xmlUsersFile));
 
-            Usernames = XDocument.Parse(xmlString.ToString()).Descendants("user").
+            _usernames = XDocument.Parse(xmlString.ToString()).Descendants("user").
                 Select(e => (string)e.Attribute("username")).ToList();
 
-            UsernamesPassword = XDocument.Parse(xmlString.ToString()).Descendants("user").
+            _usernamesPassword = XDocument.Parse(xmlString.ToString()).Descendants("user").
                 Select(e => new {
                     Username = (string)(e.Attribute("username")),
                     Password = (string)(e.Attribute("password"))
                 }).ToDictionary(e => e.Username, e => e.Password);
         }
 
+        #region Connection
         private void OnLoginAction(object obj) {
 
             string value = null;
-            UsernamesPassword.TryGetValue(User.Username, out value);
+            _usernamesPassword.TryGetValue(User.Username, out value);
 
             if (User.Username == null) {
                 _errWindow = new Window_error("Username is null.");
@@ -61,7 +61,7 @@ namespace Projet.ViewModels {
                 _errWindow = new Window_error("Password is null.");
                 _errWindow.ShowDialog();
             }
-            else if (!Usernames.Contains(User.Username)) {
+            else if (!_usernames.Contains(User.Username)) {
                 _errWindow = new Window_error("Unknown user.");
                 _errWindow.ShowDialog();
             }
@@ -88,7 +88,7 @@ namespace Projet.ViewModels {
 
         private void OnCreateAction(object obj) {
             User.Theme = System.Windows.Media.Brushes.White;
-            User.List = "default";
+            User.List = User.Username;
             if (User.Username == null) {
                 _errWindow = new Window_error("Username is null.");
                 _errWindow.ShowDialog();
@@ -97,7 +97,7 @@ namespace Projet.ViewModels {
                 _errWindow = new Window_error("Password is null.");
                 _errWindow.ShowDialog();
             }
-            else if (Usernames.Contains(User.Username)) {
+            else if (_usernames.Contains(User.Username)) {
                 _errWindow = new Window_error("Username already exists.");
                 _errWindow.ShowDialog();
             }
@@ -108,10 +108,11 @@ namespace Projet.ViewModels {
                     new XAttribute("username", User.Username), new XAttribute("password", User.Password), new XAttribute("theme", User.Theme), new XAttribute("list", User.List));
                 xDoc.Add(myNewElement);
                 xDoc.Save(Path.GetFullPath(_xmlUsersFile));
-                Settings.Add(User.Username, User);//ajoute en key le nom du user, et ajoute les autres infos en value
+                _settings.Add(User.Username, User);
                 ButtonPressedEvent.GetEvent().OnButtonPressedHandler(EventArgs.Empty);
             }
-        }
+        } 
+        #endregion
 
         #region CanExecuteCommands
         private bool CanExecuteLogin(object obj) {

@@ -5,15 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Projet"
         mc:Ignorable="d"
-        Title="Window_colorPicker" Height="200" Width="200" Background="{Binding Theme}">
+        Title="Theme" Height="200" Width="200" Background="{Binding Theme}" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
 
-        <StackPanel HorizontalAlignment="Center">
-            <Label Content="Theme Color:"/>
-            <TextBox Text="{Binding Theme}"/>
-            <Button Content="OK" Command="{Binding OKCommand}"/>
-            <Button Content="Cancel" Command="{Binding CancelCommand}"/>
-        </StackPanel>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Label Content="Theme Color:" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBox Text="{Binding Theme}" Grid.ColumnSpan="2" Margin="40,60,40,0"/>
+
+        <Button Content="OK" Grid.Row="1" Grid.Column="0" Command="{Binding OKCommand}" Margin="5,0,5,0"/>
+        <Button Content="Cancel" Grid.Row="1" Grid.Column="1" Command="{Binding CancelCommand}" Margin="5,0,5,0"/>
+
+
     </Grid>
 </Window>

@@ -19,6 +19,7 @@ namespace Projet.ViewModels {
         public RemoveEmoteViewModel(bool ans, User user) {
             User = user;
             this.Ans = ans;
+
             Yes = new DelegateCommand(OnYesAction, CanExecuteYes);
             No = new DelegateCommand(OnNoAction, CanExecuteNo);
         }

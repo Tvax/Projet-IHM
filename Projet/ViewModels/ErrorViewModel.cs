@@ -1,11 +1,5 @@
-﻿using Library;
-using Projet.Events;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
 namespace Projet.ViewModels {

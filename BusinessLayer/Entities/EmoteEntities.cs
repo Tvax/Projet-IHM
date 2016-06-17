@@ -9,8 +9,6 @@
 
         public string Origine { get; set; }
 
-        public int EmoteMin { get; set; }
-
-        public string Abonnement { get; set; }
+        public string Followers { get; set; }
     }
 }

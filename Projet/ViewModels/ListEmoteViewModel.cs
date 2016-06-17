@@ -1,8 +1,6 @@
 ﻿using Projet.Modeles;
 using Library;
 using System.Collections.ObjectModel;
-using Projet.Factorys;
-using BusinessLayer;
 using Projet.Events;
 using System;
 using System.Windows.Media.Imaging;
@@ -10,7 +8,6 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using System.IO;
 using System.Linq;
-using System.Xml;
 using System.Net;
 using Projet.API;
 using Newtonsoft.Json;
@@ -23,10 +20,10 @@ namespace Projet.ViewModels {
         public DelegateCommand SaveCommand { get; set; }
         public DelegateCommand ColorBoxCommand { get; set; }
         public DelegateCommand SaveQuitCommand { get; set; }
-        public bool Ans = false;
-        public Dictionary<string, User> Settings = new Dictionary<string, User>();
-
-        WebClient _webClient = new WebClient();
+        
+        private Dictionary<string, User> _settings = new Dictionary<string, User>();
+        private bool _ans = false;
+        private WebClient _webClient = new WebClient();
         private Emote _tmp;
         private string _xmlListFile = "../../lists.xml";
         private string _xmlUsersFile = "../../users.xml";
@@ -71,6 +68,7 @@ namespace Projet.ViewModels {
         public ListEmoteViewModel() {
             Login();
             ListLoading();
+
             ColorBoxCommand = new DelegateCommand(OnColorAction, CanExecuteColor);
             OnAddCommand = new DelegateCommand(OnAddAction, CanExecuteAdd);
             EditCommand = new DelegateCommand(OnEditCommand, CanEditCommand);
@@ -79,17 +77,17 @@ namespace Projet.ViewModels {
             SaveQuitCommand = new DelegateCommand(OnSaveQuitCommand, CanSaveQuitCommand);
         }
 
+        #region Others
         public string LoadKraken(string origine) {
-            
             string url = $"https://api.twitch.tv/kraken/channels/" + origine + "/";
-            string json = _webClient.DownloadString(url);
 
-            try { TwitchMainAPI.RootObject followers = JsonConvert.DeserializeObject<TwitchMainAPI.RootObject>(json);
+            try {
+                string json = _webClient.DownloadString(url);
+                TwitchMainAPI.RootObject followers = JsonConvert.DeserializeObject<TwitchMainAPI.RootObject>(json);
                 string nbFollowers = followers.followers.ToString();
                 return nbFollowers;
             }
             catch { return "User not found"; }
-                       
         }
 
         private void ListLoading() {
@@ -124,10 +122,11 @@ namespace Projet.ViewModels {
 
         private void Login() {
             ButtonPressedEvent.GetEvent().Handler += CloseLoginView;
-            _loginWindow = new Window_login(_user = new User(), Settings);
+            _loginWindow = new Window_login(_user = new User(), _settings);
             _loginWindow.ShowDialog();
             if (User.Username == null || User.Password == null) App.Current.Shutdown();
-        }
+        } 
+        #endregion
 
         #region OnActions
         private void OnColorAction(object obj) {
@@ -138,15 +137,13 @@ namespace Projet.ViewModels {
         }
         private void OnDelCommand(object o) {
             ButtonPressedEvent.GetEvent().Handler += CloseRmView;
-            _rmWindow = new Window_remove(Ans, User);
+            _rmWindow = new Window_remove(_ans, User);
             _rmWindow.Name = "Remove";
             _rmWindow.ShowDialog();
 
-            if (_rmWindow.ViewModel.Ans)
-                ListeEmotes.Remove(Emote);
+            if (_rmWindow.ViewModel.Ans) ListeEmotes.Remove(Emote);
         }
         private void OnSaveCommand(object o) {
-            //Delete toutes listes
             var xmlString = XDocument.Load(Path.GetFullPath(_xmlListFile));
             xmlString.Root.Elements("user").
                 Where(i => (string)i.Attribute("list") == User.List).Remove();
@@ -220,7 +217,7 @@ namespace Projet.ViewModels {
                 tmp.Description = desc1;
                 tmp.Nom = nom1;
                 tmp.Origine = orig1;
-                tmp.Followers = LoadKraken(tmp.Origine);//ici rajouter
+                tmp.Followers = LoadKraken(tmp.Origine);
                 tmp.Image = img1;
                 ListeEmotes.Add(tmp);
 
@@ -234,7 +231,7 @@ namespace Projet.ViewModels {
                 tmp.Nom = nomBackup;
                 tmp.Description = descBackup;
                 tmp.Origine = origBackup;
-                tmp.Followers = LoadKraken(tmp.Origine);//ici rajouter
+                tmp.Followers = LoadKraken(tmp.Origine);
                 tmp.Image = imgBackup;
                 ListeEmotes.Add(tmp);
 
