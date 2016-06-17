@@ -13,26 +13,30 @@ namespace Projet.ViewModels {
         public DelegateCommand CancelCommand { get; set; }
         public bool Ans = false;
 
-        private System.Windows.Media.Brush _themeBackup;
+        private System.Windows.Media.Brush _theme;
         private User _user;
         public User User {
             get { return _user; }
             set { _user = value; }
         }
+        public System.Windows.Media.Brush Theme {
+            get { return _theme; }
+            set { _theme = value; }
+        }
 
         public ColorPickerViewModel(User user) {
+            Theme = user.Theme;
             User = user;
-            _themeBackup = User.Theme;
             OKCommand = new DelegateCommand(OnOKAction, CanOKCommand);
             CancelCommand = new DelegateCommand(OnCancelAction, CanCancelCommand);
         }
 
         private void OnOKAction(object obj) {
             Ans = true;
+            User.Theme = Theme;
             ButtonPressedEvent.GetEvent().OnButtonPressedHandler(EventArgs.Empty);
         }
         private void OnCancelAction(object obj) {
-            User.Theme = _themeBackup;
             ButtonPressedEvent.GetEvent().OnButtonPressedHandler(EventArgs.Empty);
         }
 
@@ -44,5 +48,5 @@ namespace Projet.ViewModels {
         }
     }
 
-    
+
 }

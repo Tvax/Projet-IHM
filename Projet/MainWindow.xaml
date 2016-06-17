@@ -46,10 +46,8 @@
             <Label x:Name="Nom" Content="{Binding Emote.Nom, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Grid.Row="0" Margin="45,0,0,0"/>
             <Label Content="Origine :" Grid.Column="0" Grid.Row="1"/>
             <Label x:Name="Origine" Content="{Binding Emote.Origine, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Grid.Row="1" Margin="60,0,0,0"/>
-            <Label Content="Emotes par minute :" Grid.Column="1" Grid.Row="0"/>
-            <Label x:Name="EmoteMin" Content="{Binding Emote.EmoteMin, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="0" Margin="120,0,0,0"/>
-            <Label Content="Abonnement :" Grid.Column="1" Grid.Row="1"/>
-            <Label x:Name="Abonnement" Content="{Binding Emote.Abonnement, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="1" Margin="90,0,0,0"/>
+            <Label Content="Followers:" Grid.Column="1" Grid.Row="0"/>
+            <Label x:Name="Followers" Content="{Binding Emote.Followers, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="0" Margin="70,0,0,0"/>
             <Label Content="Description :" Grid.Column="0" Grid.Row="2" />
             <TextBox x:Name="Description" IsReadOnly="True" TextWrapping="Wrap" Text="{Binding Emote.Description, UpdateSourceTrigger=PropertyChanged}" Grid.Column="0" Grid.Row="2" Margin="10,25,0,25"/>
             <Image x:Name="img" Grid.Column="1" Grid.Row="2" Source="{Binding Emote.Image, UpdateSourceTrigger=PropertyChanged}" Margin="10,10,10,10"/>
@@ -91,6 +89,8 @@
             <MenuItem Header="_File" Background="{Binding User.Theme}">
                 <MenuItem Header="_Save" Command="{Binding SaveCommand}" Background="{Binding User.Theme}"/>
                 <MenuItem Header="_Color" Command="{Binding ColorBoxCommand}" Background="{Binding User.Theme}"/>
+                <Separator />
+                <MenuItem Header="_Save and Quit" Command="{Binding SaveQuitCommand}" Background="{Binding User.Theme}"/>
             </MenuItem>
         </Menu>
 

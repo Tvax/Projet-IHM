@@ -6,6 +6,8 @@
         xmlns:local="clr-namespace:Projet"
         mc:Ignorable="d"
         Title="Login" Height="250" Width="350" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+   
+   
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.3*"/>
@@ -22,7 +24,7 @@
         <Label Content="Password: " Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         <TextBox Name="username" Text="{Binding User.Username}" Grid.Column="1" VerticalAlignment="Center" Margin="20,0,20,0"/>
         <TextBox Name="password" Text="{Binding User.Password}" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="20,0,20,0"/>
-
+              
         <Button Content="Login" Command="{Binding OnLoginCommand}" Grid.Column="1" Grid.Row="2" Margin="5,0,5,5"/>
         <Button Content="Create Account" Command="{Binding OnCreateAccountCommand}" Grid.Row="2" Margin="5,0,5,5"/>
 

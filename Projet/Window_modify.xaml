@@ -37,16 +37,6 @@
                 <RowDefinition Height="0.6*"/>
             </Grid.RowDefinitions>
 
-            <Label Content="Emotes par minute :" Grid.Column="0" Grid.Row="0"/>
-            <TextBox x:Name="Mod_Emo" Grid.Column="0" Grid.Row="0" Margin="115,1,1,1" Text="{Binding Emote.EmoteMin}"/>
-            <Label Content="Abonnement :" Grid.Column="0" Grid.Row="1"/>
-
-            <ComboBox Grid.Column="1" Grid.Row="1" Margin="5,22,5,5">
-                <ComboBoxItem>Yes</ComboBoxItem>
-                <ComboBoxItem>No</ComboBoxItem>
-            </ComboBox>
-
-
         </Grid>
 
         <Grid Grid.Column="0" Grid.Row="2">

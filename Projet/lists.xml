@@ -1,7 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <database>
   <user list="user">
-    <list nom="Nom" description="Description" image="file:///C:/Users/Teiva/Source/Repos/Projet-IHM/Projet/no_image.png" origine="Origine" emotemin="elelel" abonnement="0" />
-    <list nom="Nom" description="Description" image="file:///C:/Users/Teiva/Source/Repos/Projet-IHM/Projet/no_image.png" origine="Origine" emotemin="elelel" abonnement="0" />
+    <list nom="Nom" description="Description" image="file:///C:/Users/Teiva/Source/Repos/Projet-IHM/Projet/no_image.png" origine="Zedlin07" />
   </user>
 </database>

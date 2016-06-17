@@ -6,8 +6,7 @@ namespace Projet.Modeles {
 
         private string _nom { get; set; }
         private string _origine { get; set; }
-        private string _emotemin { get; set; }
-        private string _abonnement { get; set; }
+        private string _followers { get; set; }
         private string _description { get; set; }
         private BitmapImage _image { get; set; }
 
@@ -21,14 +20,9 @@ namespace Projet.Modeles {
             set { _origine = value; }
         }
 
-        public string EmoteMin {
-            get { return _emotemin; }
-            set { _emotemin = value; }
-        }
-
-        public string Abonnement {
-            get { return _abonnement; }
-            set { _abonnement = value; }
+        public string Followers {
+            get { return _followers; }
+            set { _followers = value; }
         }
 
         public string Description {

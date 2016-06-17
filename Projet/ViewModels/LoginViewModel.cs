@@ -15,6 +15,7 @@ namespace Projet.ViewModels {
         public DelegateCommand OnLoginCommand { get; set; }
         public Dictionary<string, User> Settings { get; set; }
         public List<string> Usernames;
+        public Dictionary<string, string> UsernamesPassword;
 
         private User _user;
         private string _xmlUsersFile = "../../users.xml";
@@ -39,22 +40,34 @@ namespace Projet.ViewModels {
 
             Usernames = XDocument.Parse(xmlString.ToString()).Descendants("user").
                 Select(e => (string)e.Attribute("username")).ToList();
+
+            UsernamesPassword = XDocument.Parse(xmlString.ToString()).Descendants("user").
+                Select(e => new {
+                    Username = (string)(e.Attribute("username")),
+                    Password = (string)(e.Attribute("password"))
+                }).ToDictionary(e => e.Username, e => e.Password);
         }
 
         private void OnLoginAction(object obj) {
+
+            string value = null;
+            UsernamesPassword.TryGetValue(User.Username, out value);
+
             if (User.Username == null) {
-                ButtonPressedEvent.GetEvent().Handler += CloseErrorView;
                 _errWindow = new Window_error("Username is null.");
                 _errWindow.ShowDialog();
             }
             else if (User.Password == null) {
-                ButtonPressedEvent.GetEvent().Handler += CloseErrorView;
                 _errWindow = new Window_error("Password is null.");
                 _errWindow.ShowDialog();
             }
             else if (!Usernames.Contains(User.Username)) {
-                ButtonPressedEvent.GetEvent().Handler += CloseErrorView;
                 _errWindow = new Window_error("Unknown user.");
+                _errWindow.ShowDialog();
+            }
+
+            else if (value != User.Password) {
+                _errWindow = new Window_error("Wrong Password");
                 _errWindow.ShowDialog();
             }
             else {
@@ -77,17 +90,14 @@ namespace Projet.ViewModels {
             User.Theme = System.Windows.Media.Brushes.White;
             User.List = "default";
             if (User.Username == null) {
-                ButtonPressedEvent.GetEvent().Handler += CloseErrorView;
                 _errWindow = new Window_error("Username is null.");
                 _errWindow.ShowDialog();
             }
             else if (User.Password == null) {
-                ButtonPressedEvent.GetEvent().Handler += CloseErrorView;
                 _errWindow = new Window_error("Password is null.");
                 _errWindow.ShowDialog();
             }
             else if (Usernames.Contains(User.Username)) {
-                ButtonPressedEvent.GetEvent().Handler += CloseErrorView;
                 _errWindow = new Window_error("Username already exists.");
                 _errWindow.ShowDialog();
             }
@@ -101,14 +111,6 @@ namespace Projet.ViewModels {
                 Settings.Add(User.Username, User);//ajoute en key le nom du user, et ajoute les autres infos en value
                 ButtonPressedEvent.GetEvent().OnButtonPressedHandler(EventArgs.Empty);
             }
-        }
-
-        //desactive parce que deux events en mm tps, celui de login dans list et celui de error dans login(ici)
-        //donc ferme les deux fenetres en meme temps parce que meme event qui est raise
-        //mm si c'est pas meme methode
-        private void CloseErrorView(object sender, EventArgs e) {
-            _errWindow.Close();
-            ButtonPressedEvent.GetEvent().Handler -= CloseErrorView;
         }
 
         #region CanExecuteCommands

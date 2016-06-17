@@ -24,7 +24,8 @@ namespace Projet {
         public Window_login(User user, Dictionary<string, User> settings) {
             InitializeComponent();
             ViewModel = new LoginViewModel(user, settings);
-            DataContext = ViewModel;
+           DataContext = ViewModel;
+
         }
     }
 }
