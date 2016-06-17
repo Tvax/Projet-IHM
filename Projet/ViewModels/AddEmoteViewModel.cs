@@ -35,7 +35,6 @@ namespace Projet.ViewModels {
 
         #region OnActions
         private void OnCancelCommand(object o) {
-            Valid = false;
             ButtonPressedEvent.GetEvent().OnButtonPressedHandler(EventArgs.Empty);
         }
 

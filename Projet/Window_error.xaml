@@ -9,7 +9,6 @@
     <Grid>
 
         <Label Content="{Binding Error}" Margin="5,5,5,50" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <Button Content="OK"  Margin="50,100,50,5" Click="Button_Click"/>
         <Image Source="{Binding Image}" Margin="5,5,200,50" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
     </Grid>

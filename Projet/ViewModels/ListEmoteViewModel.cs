@@ -11,7 +11,6 @@ using System.Xml.Linq;
 using System.IO;
 using System.Linq;
 using System.Xml;
-using ColorBox;
 
 namespace Projet.ViewModels {
     class ListEmoteViewModel : NotifyPropertyChangedBase {
@@ -60,17 +59,13 @@ namespace Projet.ViewModels {
         public ListEmoteViewModel() {
             Login();
             ListLoading();
-            //ListeEmotes = EmoteFactory.AllEmoteEntitieToEmote(EmoteDAO.GetAllEmote());
             ColorBoxCommand = new DelegateCommand(OnColorAction, CanExecuteColor);
             OnAddCommand = new DelegateCommand(OnAddAction, CanExecuteAdd);
             EditCommand = new DelegateCommand(OnEditCommand, CanEditCommand);
             DelCommand = new DelegateCommand(OnDelCommand, CanDelCommand);
             SaveCommand = new DelegateCommand(OnSaveCommand, CanSaveCommand);
         }
-
-        
-
-        
+       
 
         private void ListLoading() {
             ListeEmotes = new ObservableCollection<Emote>();
@@ -109,8 +104,7 @@ namespace Projet.ViewModels {
             ButtonPressedEvent.GetEvent().Handler += CloseLoginView;
             _loginWindow = new Window_login(_user = new User(), Settings);
             _loginWindow.ShowDialog();
-            if (User.Username == null)
-                App.Current.Shutdown();
+            if (User.Username == null || User.Password == null) App.Current.Shutdown();
         }
 
         #region OnActions
