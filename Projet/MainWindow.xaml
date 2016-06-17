@@ -87,9 +87,10 @@
             </Button>
         </Grid>
 
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_File">
-                <MenuItem Header="_Save" Command="{Binding SaveCommand}"/>
+        <Menu DockPanel.Dock="Top" Background="{Binding User.Theme}">
+            <MenuItem Header="_File" Background="{Binding User.Theme}">
+                <MenuItem Header="_Save" Command="{Binding SaveCommand}" Background="{Binding User.Theme}"/>
+                <MenuItem Header="_Color" Command="{Binding ColorBoxCommand}" Background="{Binding User.Theme}"/>
             </MenuItem>
         </Menu>
 

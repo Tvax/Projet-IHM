@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <database>
-  <user username="user" password="pswd" theme="#bfff00" list="user" />
+  <user username="user" password="pswd" theme="#FFFFF888" list="user" />
 </database>

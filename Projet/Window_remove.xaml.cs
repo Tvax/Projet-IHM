@@ -1,4 +1,5 @@
-﻿using Projet.ViewModels;
+﻿using Projet.Modeles;
+using Projet.ViewModels;
 using System.Windows;
 
 namespace Projet {
@@ -9,9 +10,9 @@ namespace Projet {
 
         public RemoveEmoteViewModel ViewModel { get; set; }
         
-        public Window_remove(bool ans) {
+        public Window_remove(bool ans, User user) {
             InitializeComponent();
-            ViewModel = new RemoveEmoteViewModel(ans);
+            ViewModel = new RemoveEmoteViewModel(ans, user);
             DataContext = ViewModel;
         }
     }

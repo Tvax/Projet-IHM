@@ -61,6 +61,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility" />
+    <Reference Include="ColorBox">
+      <HintPath>..\packages\ColorBox.dll</HintPath>
+    </Reference>
     <Reference Include="MaterialDesignColors, Version=1.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignColors.1.1.2\lib\net45\MaterialDesignColors.dll</HintPath>
       <Private>True</Private>
@@ -88,6 +91,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToolkit.Extended">
+      <HintPath>..\packages\WPFToolkit.Extended.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -100,12 +106,16 @@
     <Compile Include="Modeles\Emote.cs" />
     <Compile Include="Modeles\User.cs" />
     <Compile Include="ViewModels\AddEmoteViewModel.cs" />
+    <Compile Include="ViewModels\ColorPickerViewModel.cs" />
     <Compile Include="ViewModels\ErrorViewModel.cs" />
     <Compile Include="ViewModels\ListEmoteViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\RemoveEmoteViewModel.cs" />
     <Compile Include="Window_add.xaml.cs">
       <DependentUpon>Window_add.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Window_colorPicker.xaml.cs">
+      <DependentUpon>Window_colorPicker.xaml</DependentUpon>
     </Compile>
     <Compile Include="Window_error.xaml.cs">
       <DependentUpon>Window_error.xaml</DependentUpon>
@@ -132,6 +142,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Window_add.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Window_colorPicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

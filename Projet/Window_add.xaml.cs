@@ -11,8 +11,8 @@ namespace Projet {
 
         public AddEmoteViewModel ViewModel { get; set; }
 
-        public Window_add(Emote emot) {   
-            ViewModel = new AddEmoteViewModel(emot);
+        public Window_add(Emote emot, User user) {   
+            ViewModel = new AddEmoteViewModel(emot, user);
             DataContext = ViewModel;
             InitializeComponent();
         }

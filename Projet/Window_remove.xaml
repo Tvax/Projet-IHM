@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Projet.Window_remove"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Remove Emote" Height="150" Width="375" ResizeMode="NoResize" Icon="favicon.ico" ShowInTaskbar="False" WindowStartupLocation="CenterScreen">
+        Title="Remove Emote" Background="{Binding User.Theme}" Height="150" Width="375" ResizeMode="NoResize" Icon="favicon.ico" ShowInTaskbar="False" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.5*"/>

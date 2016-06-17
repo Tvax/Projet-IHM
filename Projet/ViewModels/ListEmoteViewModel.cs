@@ -11,6 +11,7 @@ using System.Xml.Linq;
 using System.IO;
 using System.Linq;
 using System.Xml;
+using ColorBox;
 
 namespace Projet.ViewModels {
     class ListEmoteViewModel : NotifyPropertyChangedBase {
@@ -18,11 +19,13 @@ namespace Projet.ViewModels {
         public DelegateCommand EditCommand { get; set; }
         public DelegateCommand DelCommand { get; set; }
         public DelegateCommand SaveCommand { get; set; }
+        public DelegateCommand ColorBoxCommand { get; set; }
         public bool Ans = false;
         public Dictionary<string, User> Settings = new Dictionary<string, User>();
 
         private Emote _tmp;
         private string _xmlListFile = "../../lists.xml";
+        private string _xmlUsersFile = "../../users.xml";
         private User _user;
         private Emote _emot;
         private ObservableCollection<Emote> _listeEmote;
@@ -30,6 +33,7 @@ namespace Projet.ViewModels {
         private Window_modify _modWindow { get; set; }
         private Window_remove _rmWindow { get; set; }
         private Window_login _loginWindow { get; set; }
+        private Window_colorPicker _colorWindow { get; set; }
 
         public User User {
             get { return _user; }
@@ -57,11 +61,16 @@ namespace Projet.ViewModels {
             Login();
             ListLoading();
             //ListeEmotes = EmoteFactory.AllEmoteEntitieToEmote(EmoteDAO.GetAllEmote());
+            ColorBoxCommand = new DelegateCommand(OnColorAction, CanExecuteColor);
             OnAddCommand = new DelegateCommand(OnAddAction, CanExecuteAdd);
             EditCommand = new DelegateCommand(OnEditCommand, CanEditCommand);
             DelCommand = new DelegateCommand(OnDelCommand, CanDelCommand);
             SaveCommand = new DelegateCommand(OnSaveCommand, CanSaveCommand);
         }
+
+        
+
+        
 
         private void ListLoading() {
             ListeEmotes = new ObservableCollection<Emote>();
@@ -105,6 +114,25 @@ namespace Projet.ViewModels {
         }
 
         #region OnActions
+        private void OnColorAction(object obj) {
+            System.Windows.Media.Brush themeBackup = User.Theme;
+            ButtonPressedEvent.GetEvent().Handler += CloseColorView;
+            _colorWindow = new Window_colorPicker(_user);
+            _colorWindow.Name = "Theme";
+            _colorWindow.ShowDialog();
+
+            if (!_colorWindow.ViewModel.Ans) User.Theme = themeBackup;
+
+        }
+        private void OnDelCommand(object o) {
+            ButtonPressedEvent.GetEvent().Handler += CloseRmView;
+            _rmWindow = new Window_remove(Ans, User);
+            _rmWindow.Name = "Remove";
+            _rmWindow.ShowDialog();
+
+            if (_rmWindow.ViewModel.Ans)
+                ListeEmotes.Remove(Emote);
+        }
         private void OnSaveCommand(object o) {
             //Delete toutes listes
             var xmlString = XDocument.Load(Path.GetFullPath(_xmlListFile));
@@ -120,28 +148,31 @@ namespace Projet.ViewModels {
             foreach (var r in ListeEmotes) {
                 myNewElement1 = new XElement("list",
                       new XAttribute("nom", r.Nom), new XAttribute("description", r.Description), new XAttribute("image", r.Image), new XAttribute("origine", r.Origine), new XAttribute("emotemin", r.EmoteMin), new XAttribute("abonnement", r.Abonnement));
-
-                    myNewElement2.Add(myNewElement1);
+                myNewElement2.Add(myNewElement1);
             }
 
             var xmlString1 = XElement.Load(Path.GetFullPath(_xmlListFile));
             xmlString1.Add(myNewElement2);
             xmlString1.Save(Path.GetFullPath(_xmlListFile));
 
-        }
+            //Suppression user
+            var xmlString2 = XDocument.Load(Path.GetFullPath(_xmlUsersFile));
+            xmlString2.Root.Elements("user").
+                Where(i => (string)i.Attribute("username") == User.List).Remove();
+            xmlString2.Save(Path.GetFullPath(_xmlUsersFile));
 
-        private void OnDelCommand(object o) {
-            ButtonPressedEvent.GetEvent().Handler += CloseRmView;
-            _rmWindow = new Window_remove(Ans);
-            _rmWindow.Name = "Remove";
-            _rmWindow.ShowDialog();
+            //Ajoute user modifie
+            var xDoc = XElement.Load(Path.GetFullPath(_xmlUsersFile));
+            if (xDoc == null) return;
+            var myNewElement = new XElement("user",
+                    new XAttribute("username", User.Username), new XAttribute("password", User.Password), new XAttribute("theme", User.Theme), new XAttribute("list", User.List));
+            xDoc.Add(myNewElement);
+            xDoc.Save(Path.GetFullPath(_xmlUsersFile));
 
-            if (_rmWindow.ViewModel.Ans)
-                ListeEmotes.Remove(Emote);
         }
         private void OnAddAction(object o) {
             ButtonPressedEvent.GetEvent().Handler += CloseAddView;
-            _addWindow = new Window_add(_emot = new Emote());
+            _addWindow = new Window_add(_emot = new Emote(), User);
             _addWindow.Name = "Add";
             _addWindow.ShowDialog();
 
@@ -164,7 +195,7 @@ namespace Projet.ViewModels {
             string eminBackup = Emote.EmoteMin;
             BitmapImage imgBackup = Emote.Image;
 
-            _modWindow = new Window_modify(Emote);
+            _modWindow = new Window_modify(Emote, User);
             _modWindow.Name = "Edit";
             _modWindow.ShowDialog();
 
@@ -210,6 +241,10 @@ namespace Projet.ViewModels {
         #endregion
 
         #region CloseEvents
+        private void CloseColorView(object sender, EventArgs e) {
+            _colorWindow.Close();
+            ButtonPressedEvent.GetEvent().Handler -= CloseColorView;
+        }
         private void CloseLoginView(object sender, EventArgs e) {
             _loginWindow.Close();
             ButtonPressedEvent.GetEvent().Handler -= CloseLoginView;
@@ -240,6 +275,9 @@ namespace Projet.ViewModels {
         }
         private bool CanDelCommand(object o) {
             return Emote != null;
+        }
+        private bool CanExecuteColor(object obj) {
+            return true;
         }
         #endregion
     }

@@ -12,15 +12,21 @@ namespace Projet.ViewModels {
         public DelegateCommand LoadCommand { get; set; }
         public bool Valid = false;
 
+        private User _user;
         private Emote _emot;
 
         public Emote Emote {
             get { return _emot; }
             set { _emot = value; }
         }
+        public User User {
+            get { return _user; }
+            set { _user = value; }
+        }
 
-        public AddEmoteViewModel(Emote emote) {
+        public AddEmoteViewModel(Emote emote, User user) {
             Emote = emote;
+            User = user;
 
             OKCommand = new DelegateCommand(OnOKAction, CanExecuteOK);
             CancelCommand = new DelegateCommand(OnCancelCommand, CanCancelCommand);

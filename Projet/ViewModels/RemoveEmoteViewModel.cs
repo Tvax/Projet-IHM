@@ -1,6 +1,7 @@
 ﻿using Library;
 using System;
 using Projet.Events;
+using Projet.Modeles;
 
 namespace Projet.ViewModels {
     public class RemoveEmoteViewModel : NotifyPropertyChangedBase {
@@ -8,7 +9,15 @@ namespace Projet.ViewModels {
         public DelegateCommand No { get; set; }
         public bool Ans { get; set; }
 
-        public RemoveEmoteViewModel(bool ans) {
+        private User _user;
+
+        public User User {
+            get { return _user; }
+            set { _user = value; }
+        }
+
+        public RemoveEmoteViewModel(bool ans, User user) {
+            User = user;
             this.Ans = ans;
             Yes = new DelegateCommand(OnYesAction, CanExecuteYes);
             No = new DelegateCommand(OnNoAction, CanExecuteNo);
